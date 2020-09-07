@@ -1,14 +1,24 @@
 import sys
+check_val = sys.argv[1]
 
-def deep_get(_dict, keys, default=None):
-    for key in keys:
-        if isinstance(_dict, dict):
-            _dict = _dict.get(key, default)
+
+def recursive_items(dictionary):
+    for key, value in dictionary.items():
+        if type(value) is dict:
+            keys.append(str(key))
+            yield from recursive_items(value)
         else:
-            return default
-    return _dict   
+            yield (key, value)
 
+my_dict = {"a":{"b":{"c":"d"}}} 
 
-my_dict = {"a":{"b":{"c":"d"}}}
-ans = deep_get(my_dict, ['a', 'b', 'c'])
-print(ans)
+for k,v in my_dict.items():
+  keys = []
+  keys.append(str(k))
+  for key, value in recursive_items(v):
+    # print(key, value)
+    keys.append(str(key))
+  if check_val in keys:
+    print(value)
+  else:
+    pass
